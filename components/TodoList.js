@@ -1,4 +1,4 @@
-import { createElement } from "../functions/dom.js"
+import { cloneTemplate, createElement } from "../functions/dom.js"
 
 /**
  * Classe TodoList
@@ -27,7 +27,7 @@ export class TodoList {
      */
     appendTo(element) {
         element.append(
-            document.getElementById('todolist-layout').contentEditable.cloneNode(true)
+            cloneTemplate('todolist-layout')
         )
         this.#listElement = element.querySelector('.list-group')
         for (let todo of this.#todos) {
