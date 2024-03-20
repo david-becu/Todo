@@ -1,4 +1,4 @@
-import { cloneTemplate, createElement } from "../functions/dom.js"
+import { cloneTemplate } from "../functions/dom.js"
 
 /**
  * Classe TodoList
@@ -93,38 +93,24 @@ class TodoListItem {
     constructor(todo) {
         
         const id = `todo-${todo.id}`
-        
-        const li = createElement('li', {
-            class: 'todo list-group-item d-flex align-items-center'
-        })
+        const li = cloneTemplate('todolist-item').firstElementChild
         this.#element = li
-        const checkbox = createElement('input', {
-            class: 'form-check-input',
-            type: 'checkbox',
-            id,
-            checked: todo.completed ? '' : null
-        })
+        
+        const checkbox = li.querySelector('input')
+        checkbox.setAttribute('id', id)
+        if(todo.completed) {
+            checkbox.setAttribute('checked', '')
+        }
 
-        const label = createElement('label', {
-            class: 'ms-2 form-check-label',
-            for: id
-        })
+        const label = li.querySelector('label')
+        label.setAttribute('for', id)
         label.innerText = todo.title
         
-        const button = createElement('button', {
-            class: 'ms-auto btn btn-danger btn-sm',
-        })
-        button.innerHTML = '<i class="bi-trash"></i>'
+        const button = li.querySelector('button')
 
-        li.append(checkbox)
-        li.append(label)
-        li.append(button)
         this.toggle(checkbox)
 
         button.addEventListener('click', e => this.remove(e))
-        // checkbox.addEventListener('change', (e) => {
-        //     todo.completed = e.currentTarget.checked
-        // })
         checkbox.addEventListener('change', e => this.toggle(e.currentTarget))
         
     }
